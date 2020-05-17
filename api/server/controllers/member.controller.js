@@ -125,13 +125,10 @@ const updateMember = async (req, res, next) => {
 const updateStatistic = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id);
 
     const {
       isRightAnswer, questionLevel,
     } = req.body;
-
-    console.log(`Ray${isRightAnswer}`);
 
     const member = await memberService.updateStatistic({
       id,

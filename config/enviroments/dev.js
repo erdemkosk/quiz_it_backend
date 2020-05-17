@@ -4,7 +4,7 @@ module.exports = {
     port: process.env.PORT || 3000,
   },
   mongodb: {
-    url: process.env.MONGODB_URL || 'mongodb+srv://mek:Edoerdem6@mongomek-f9yax.mongodb.net/quiz?retryWrites=true&w=majority',
+    url: process.env.MONGODB_URL || '',
   },
   jwt: {
     key: process.env.JWT_KEY || '',
@@ -17,11 +17,11 @@ module.exports = {
     enabled: process.env.SWAGGER_ENABLED || true,
   },
   redis: {
-    host: 'redis-11724.c55.eu-central-1-1.ec2.cloud.redislabs.com',
-    port: 11724,
-    password: '5jEwQXK5qo6UxzMymKx9d8SjnUcOX2EW',
+    host: process.env.REDIS_HOST || '',
+    port: process.env.REDIS_PORT || 0,
+    password: process.env.REDIS_PASSWORD || '',
   },
   rabbitmq: {
-    url: 'amqp://tgkfojst:5LBEealvuxDQ19ZTev7vssXk8QdC51M6@hawk.rmq.cloudamqp.com/tgkfojst',
+    url: process.env.RABBITMQ_URL || '',
   },
 };

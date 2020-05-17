@@ -1,7 +1,7 @@
 module.exports = {
   env: 'prod',
   server: {
-    port: process.env.PORT || 4000,
+    port: process.env.PORT || 3000,
   },
   mongodb: {
     url: process.env.MONGODB_URL || '',
@@ -14,6 +14,14 @@ module.exports = {
     dsn: process.env.SENTRY_DSN || '',
   },
   swagger: {
-    enabled: process.env.SWAGGER_ENABLED || false,
+    enabled: process.env.SWAGGER_ENABLED || true,
+  },
+  redis: {
+    host: process.env.REDIS_HOST || '',
+    port: process.env.REDIS_PORT || 0,
+    password: process.env.REDIS_PASSWORD || '',
+  },
+  rabbitmq: {
+    url: process.env.RABBITMQ_URL || '',
   },
 };
