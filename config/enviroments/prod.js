@@ -15,6 +15,7 @@ module.exports = {
   },
   swagger: {
     enabled: process.env.SWAGGER_ENABLED || true,
+    host: process.env.SWAGGER_HOST || 'localhost:3000',
   },
   redis: {
     host: process.env.REDIS_HOST || '',

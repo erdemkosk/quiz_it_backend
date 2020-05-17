@@ -1,6 +1,8 @@
 /* eslint-disable global-require */
 /* eslint-disable func-names */
 
+const config = require('../../config');
+
 const options = {
   swaggerDefinition: {
     info: {
@@ -8,7 +10,7 @@ const options = {
       title: 'Test-Me Api Swagger',
       version: '1.0.0',
     },
-    host: 'localhost:3000',
+    host: config.swagger.host,
     basePath: '/api',
     produces: [
       'application/json',
