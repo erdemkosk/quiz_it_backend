@@ -10,6 +10,12 @@ const errorMiddleware = require('./api/middlewares/error.middleware');
 
 const app = express();
 
+app.use((request, response, next) => {
+  response.header('Access-Control-Allow-Origin', '*');
+  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 require('./api/plugins/mongodb.plugin');
 require('./api/plugins/security.plugin')(app);
 require('./api/server/routes')(app);
