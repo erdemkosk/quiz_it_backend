@@ -64,9 +64,20 @@ const register = async (req, res, next) => {
 
     // Send mail user
     rabbitMq.sendRabbitMQ('mailChannel', JSON.stringify({
-      email,
-      nameSurname,
+      email: 'testme-app@yandex.ru',
+      nameSurname: 'Erdem Köşk',
       type: 'register',
+      appName: 'Quiz It',
+      welcomeTitle: 'Hoş Geldin!',
+      // eslint-disable-next-line max-len
+      welcomeMessage: 'Seni aramızda görmek çok güzel <b> nameSurname </b> ! <br/> İngilizce kelime öğrenmenin en kolay yolu 🤙. Boş zamanlarında senin için oluşturulan rastgele ingilizce kelime testlerini cevapla 🙏 Kendini geliştir!',
+      mailIcon: 'https://img.icons8.com/clouds/100/000000/america.png',
+      webSiteLink: 'https://quiz-it-app.github.io/',
+      webSiteLinkButton: 'Hadi Başlayalım!',
+      thanksText: 'Projemize destek verdiğin için teşekkür ederiz!',
+      sincerelyText: 'Sevgilerle',
+      needHelpText: 'Yardım mı lazım?',
+      needHelpLink: 'http://erdemkosk.com',
     }));
 
     return res.status(200).send(responseHelper.generateSuccessResponse({ message: 'User created.', data: member }));
