@@ -1,0 +1,79 @@
+{
+  "name": "quiz_api",
+  "version": "1.0.0",
+  "description": "Node js based api developed for quiz application.",
+  "author": "Mustafa Erdem Köşk <erdemkosk@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erdemkosk/quiz_api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/erdemkosk/quiz_api/issues"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
+  },
+  "scripts": {
+    "start": "node .",
+    "start:dev": "nodemon .",
+    "test": "NODE_ENV=test jest --runInBand",
+    "test:watch": "jest --watch",
+    "lint": "eslint --ignore-pattern 'node_modules/**' 'api/**/*.{js,jsx,ts,tsx}'",
+    "lint-fix": "npm run lint -- --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint-fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "amqplib": "^0.6.0",
+    "api-express-exporter": "^1.0.0",
+    "body-parser": "^1.19.0",
+    "celebrate": "^12.1.2",
+    "cors": "^2.8.5",
+    "dateformat": "^3.0.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-better-ratelimit": "^1.1.2",
+    "express-mongo-sanitize": "^2.0.0",
+    "express-swagger-generator": "^1.1.17",
+    "express-winston": "^4.0.3",
+    "helmet": "^3.23.3",
+    "husky": "^4.2.5",
+    "ip": "^1.1.5",
+    "joi-objectid": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment-timezone": "^0.5.31",
+    "mongoose": "^5.9.25",
+    "node-mocks-http": "^1.9.0",
+    "redis": "^3.0.2",
+    "webhook-discord": "^3.7.7",
+    "winston": "^3.3.3",
+    "winston-transport-sentry-node": "^0.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "faker": "^5.1.0",
+    "jest": "^26.6.1",
+    "lint-staged": "^8.1.5",
+    "mongo-seeding": "^3.4.1",
+    "mongodb": "^3.6.2",
+    "mongodb-memory-server": "^6.9.2",
+    "mongodb-uri": "^0.9.7",
+    "rosie": "^2.0.1",
+    "supertest": "^5.0.0"
+  }
+}
