@@ -68,8 +68,6 @@ const updateWord = async (req, res, next) => {
 const deleteWord = async (req, res, next) => {
   const { id } = req.params;
 
-  console.log(id);
-
   try {
     await wordService.deleteWord({ id });
 

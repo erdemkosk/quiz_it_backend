@@ -10,7 +10,6 @@ const swagger = {
   host: process.env.SWAGGER_HOST || `${ip.address()}:${enviromentConfig.server.port}`,
 };
 
-
 enviromentConfig = {
   ...enviromentConfig,
   swagger,

@@ -22,6 +22,7 @@ module.exports = {
   },
   rabbitmq: {
     url: process.env.RABBITMQ_URL || '',
+    enable: process.env.RABBITMQ_ENABLE || true,
   },
   exporter: {
     enable: process.env.EXPORTER_ENABLE || true,

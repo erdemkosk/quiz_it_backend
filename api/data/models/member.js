@@ -7,14 +7,14 @@ const MemberSchema = new Schema({
   nameSurname: {
     type: String,
     required: [true, '`{PATH}` alanı zorunludur.'],
-    maxlength: [30, '`{PATH}` alanı (`{VALUE}`), ({MAXLENGTH}) karakterden küçük olmalıdır '],
+    maxlength: [60, '`{PATH}` alanı (`{VALUE}`), ({MAXLENGTH}) karakterden küçük olmalıdır '],
     minlength: [3, '`{PATH}` alanı (`{VALUE}`), ({MINLENGTH}) karakterden büyük olmalıdır.'],
   },
   email: {
     type: String,
     required: [true, '`{PATH}` alanı zorunludur.'],
     unique: [true, 'Böyle bir kullanıcı adı mevcuttur.'],
-    maxlength: [30, '`{PATH}` alanı (`{VALUE}`), ({MAXLENGTH}) karakterden küçük olmalıdır '],
+    maxlength: [60, '`{PATH}` alanı (`{VALUE}`), ({MAXLENGTH}) karakterden küçük olmalıdır '],
     minlength: [3, '`{PATH}` alanı (`{VALUE}`), ({MINLENGTH}) karakterden büyük olmalıdır.'],
   },
   password: {

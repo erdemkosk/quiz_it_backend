@@ -44,5 +44,18 @@ const schemas = {
       ).required(),
     },
   },
+  forgetPassword: {
+    [Segments.BODY]: {
+      email: Joi.string().email().required(),
+    },
+  },
+  changePassword: {
+    [Segments.PARAMS]: {
+      token: Joi.string().required(),
+    },
+    [Segments.BODY]: {
+      password: Joi.string().required(),
+    },
+  },
 };
 module.exports = schemas;

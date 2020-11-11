@@ -211,3 +211,10 @@ exports.getIP = function (req) {
 		req.socket.remoteAddress ||
 		(req.connection.socket ? req.connection.socket.remoteAddress : undefined);
 };
+
+exports.deepObjectIdToString = function (req) {
+  return req.headers['x-forwarded-for'] ||
+		req.connection.remoteAddress ||
+		req.socket.remoteAddress ||
+		(req.connection.socket ? req.connection.socket.remoteAddress : undefined);
+};

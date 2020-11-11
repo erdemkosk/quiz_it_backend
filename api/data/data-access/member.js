@@ -8,6 +8,13 @@ const getMember = async ({ id }) => (
     .exec()
 );
 
+const getMemberWithEmail = async ({ email }) => (
+  Member
+    .findOne({ email })
+    .lean()
+    .exec()
+);
+
 const getMemberByEmailAndPassword = async ({ email, password }) => (
   Member
     .findOne({ email, password })
@@ -18,7 +25,9 @@ const getMemberByEmailAndPassword = async ({ email, password }) => (
 const createMember = async ({ email, password, nameSurname }) => (
   new Member({
     email, password, nameSurname,
-  }).save()
+  }).save({
+    lean: true,
+  })
 );
 
 const updateMember = async ({
@@ -70,4 +79,5 @@ module.exports = {
   getTopTenMembers,
   setMemberSuccesfullQuestionStatistic,
   setMemberWrongQuestionStatistic,
+  getMemberWithEmail,
 };

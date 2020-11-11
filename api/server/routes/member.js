@@ -9,6 +9,8 @@ const {
   updateMember,
   getTopTenMembers,
   setMemberStatistic,
+  forgetPassword,
+  changePassword,
 } = require('../controllers/member');
 const schemas = require('../../validator/member');
 
@@ -101,5 +103,35 @@ router.put('/', celebrate(schemas.update), updateMember);
 
 router.put('/update-statistic/:id', celebrate(schemas.setMemberStatistic), setMemberStatistic);
 
+/**
+ * @typedef Email
+ * @property {string} email.body.required - member name and surname - eg: name surname
+ */
+/**
+ * This function comment is parsed by doctrine
+ * @route POST /member/forget-password/
+ * @group member - About member operations
+ * @param {Password.model} email.body.required
+ * @returns {object} 200 - returning Member from Members
+ * @returns {Error}  default - Unexpected error
+ */
+
+router.post('/forget-password/', celebrate(schemas.forgetPassword), forgetPassword);
+
+/**
+ * @typedef Password
+ * @property {string} email.body.required - member name and surname - eg: name surname
+ */
+/**
+ * This function comment is parsed by doctrine
+ * @route PUT /member/change-password/{token}
+ * @group member - About member operations
+ * @param {string} token.query.required 5ec28e2ae47cce0017b0b65d
+ * @param {Password.model} password.body.required
+ * @returns {object} 200 - returning Member from Members
+ * @returns {Error}  default - Unexpected error
+ */
+
+router.put('/change-password/:token', celebrate(schemas.changePassword), changePassword);
 
 module.exports = router;

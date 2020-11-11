@@ -1,8 +1,10 @@
 const memberLogic = require('../../logic/member');
 const memberDataAccess = require('../../data/data-access/member');
+const mailService = require('./mail');
+const tokenService = require('./token');
 const logger = require('../../plugin/logger');
-const { NotFound } = require('../../util/error');
-const { MESSAGES } = require('../../constant');
+const { NotFound, BadRequest } = require('../../util/error');
+const { MESSAGES, MAIL_TYPE, FORGET_PASSWORD_JWT_EXPIRE } = require('../../constant');
 
 const getMember = async ({ id }) => {
   const member = await memberDataAccess.getMember({ id });
@@ -10,6 +12,21 @@ const getMember = async ({ id }) => {
   if (!member) {
     logger.error('[MemberService - getMember failed]%o', {
       id,
+    });
+    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+  }
+
+  return {
+    member,
+  };
+};
+
+const getMemberWithEmail = async ({ email }) => {
+  const member = await memberDataAccess.getMemberWithEmail({ email });
+
+  if (!member) {
+    logger.error('[MemberService - getMember failed]%o', {
+      email,
     });
     throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
   }
@@ -46,6 +63,8 @@ const createMember = async ({ email, password, nameSurname }) => {
     });
     throw new NotFound(MESSAGES.MEMBER_CANNOT_CREATED);
   }
+
+  await mailService.sendMessageToMailService({ member, mailType: MAIL_TYPE.REGISTER });
 
   return {
     member,
@@ -119,6 +138,61 @@ const setMemberStatistic = async ({ id, isRightAnswer, difficulty }) => {
   };
 };
 
+const forgetPassword = async ({ email }) => {
+  const { member } = await getMemberWithEmail({ email });
+
+  if (!member) {
+    logger.error('[MemberService - forgetPassword failed]%o', {
+      email,
+    });
+    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+  }
+
+  const token = await tokenService.generateToken({ uuid: member._id, email: member.email, expiresIn: FORGET_PASSWORD_JWT_EXPIRE });
+  await mailService.sendMessageToMailService({ member, mailType: MAIL_TYPE.FORGET_PASSWORD, token });
+
+  return {
+    success: true,
+  };
+};
+
+const changePassword = async ({ token, password }) => {
+  let decodedToken;
+  let uuid;
+
+  try {
+    decodedToken = await tokenService.decodeToken({ token });
+    ({ uuid } = decodedToken);
+  }
+  catch (error) {
+    logger.error('[MemberService - changePassword failed]%o', {
+    });
+    throw new BadRequest(MESSAGES.TOKEN_IS_NOT_VALID);
+  }
+
+  const { member } = await getMember({ id: uuid });
+
+  if (!member) {
+    logger.error('[MemberService - changePassword failed]%o', {
+    });
+    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+  }
+
+  const { member: updatedMember } = await updateMember({
+    id: member._id, email: member.email, password, nameSurname: member.nameSurname,
+  });
+
+  if (!updatedMember) {
+    logger.error('[MemberService - changePassword failed]%o', {
+    });
+    throw new NotFound(MESSAGES.MEMBER_CANNOT_UPDATED);
+  }
+
+  return {
+    success: true,
+  };
+};
+
 module.exports = {
   getMember,
   getMemberByEmailAndPassword,
@@ -126,4 +200,6 @@ module.exports = {
   updateMember,
   getTopTenMembers,
   setMemberStatistic,
+  forgetPassword,
+  changePassword,
 };

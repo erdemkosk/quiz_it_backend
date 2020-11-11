@@ -104,6 +104,32 @@ const getTopTenMembers = async (req, res, next) => {
   }
 };
 
+const forgetPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const { success } = await memberService.forgetPassword({ email });
+
+    return res.status(200).send(successResponse({ results: success }));
+  }
+  catch (error) {
+    next(error);
+  }
+};
+
+const changePassword = async (req, res, next) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    const { success } = await memberService.changePassword({ token, password });
+
+    return res.status(200).send(successResponse({ results: success }));
+  }
+  catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   register,
@@ -111,4 +137,6 @@ module.exports = {
   updateMember,
   setMemberStatistic,
   getTopTenMembers,
+  forgetPassword,
+  changePassword,
 };

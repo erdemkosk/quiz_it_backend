@@ -6,6 +6,11 @@ module.exports = {
     INFO: 4,
   },
 
+  MAIL_TYPE: {
+    REGISTER: 1,
+    FORGET_PASSWORD: 2,
+  },
+
   MESSAGES: {
     MEMBER_NOT_FOUND: 'Member not found.',
     MEMBER_CANNOT_CREATED: 'Member cannot created.',
@@ -18,6 +23,8 @@ module.exports = {
     TOKEN_IS_NOT_VALID: 'Token is not valid.',
     TOKEN_IS_NOT_SUPPLIED: 'Auth token is not supplied.',
   },
+
+  FORGET_PASSWORD_JWT_EXPIRE: '24h',
 
   QUESTION_DIFFICULTY: {
     A1: 1,
