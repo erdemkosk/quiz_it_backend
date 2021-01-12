@@ -5,6 +5,7 @@ const auth = require('../../middleware/authentication');
 const {
   getQuestion,
   addReport,
+  getFillInBlanksQuestion,
 } = require('../controllers/question');
 const schemas = require('../../validator/question');
 
@@ -18,6 +19,17 @@ const schemas = require('../../validator/question');
  */
 
 router.get('/', celebrate(schemas.getQuestion), getQuestion);
+
+/**
+ * This function comment is parsed by doctrine
+ * @route GET /question/fill-in-blanks
+ * @group question - About question operations
+ * @param {string} difficulty.query.required
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ */
+
+router.get('/fill-in-blanks', celebrate(schemas.getQuestion), getFillInBlanksQuestion);
 
 /**
  * @typedef Report

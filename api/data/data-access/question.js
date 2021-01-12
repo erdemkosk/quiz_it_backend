@@ -1,10 +1,10 @@
 const Word = require('../../data/models/word');
 const Report = require('../../data/models/report');
 
-const getQuestion = async ({ difficulty }) => (
+const getQuestion = async ({ difficulty, sample = 4 }) => (
   Word.aggregate(
     [
-      { $match: { difficulty } }, { $sample: { size: 4 } },
+      { $match: { difficulty } }, { $sample: { size: sample } },
     ],
   )
 );
