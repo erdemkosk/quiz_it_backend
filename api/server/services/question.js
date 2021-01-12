@@ -44,7 +44,7 @@ const getFillInBlanksQuestion = async ({ difficulty = 1 }) => {
 
   answers = questionLogic.getShuffledArr(answers);
 
-  const correctAnswer = answers.findIndex(answer => answer === planingToRemoveChar);
+  const correctAnswer = answers.findIndex(answer => answer === planingToRemoveChar.toLowerCase());
 
   if (!words || !question || !answers) {
     logger.error('[QuestionService - getFillInBlanksQuestion failed]%o', {
