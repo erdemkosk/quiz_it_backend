@@ -28,7 +28,7 @@ const getQuestion = async ({ difficulty = 1 }) => {
 };
 
 const getFillInBlanksQuestion = async ({ difficulty = 1 }) => {
-  const words = await questionDataAccess.getQuestion({ difficulty, sample: 1 });
+  const words = await questionDataAccess.getFillInBlanksQuestion({ difficulty, sample: 1 });
   const question = words[0];
 
   const planingToRemoveCharNumber = questionLogic.generateRandomNumber(question.word.length);

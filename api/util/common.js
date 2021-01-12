@@ -151,7 +151,6 @@ exports.trimLastSemiColumn = function (string) {
  */
 exports.deepDeleteFields = function (obj, field) {
   if (!obj || typeof obj !== 'object') {
-    console.log(obj);
     throw new TypeError('Provide a valid object');
   }
   if (Array.isArray(field)) {

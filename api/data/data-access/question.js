@@ -9,6 +9,22 @@ const getQuestion = async ({ difficulty, sample = 4 }) => (
   )
 );
 
+const getFillInBlanksQuestion = async ({ difficulty, sample = 4 }) => (
+  Word.aggregate(
+    [
+      { $match: { difficulty } }, {
+        $redact: {
+          $cond: [
+            { $gt: [{ $strLenCP: '$word' }, 4] },
+            '$$KEEP',
+            '$$PRUNE',
+          ],
+        },
+      }, { $sample: { size: sample } },
+    ],
+  )
+);
+
 const addReport = async ({ reportMessage, questionWordId, userId }) => (
   new Report({ reportMessage, questionWordId, userId }).save()
 );
@@ -16,4 +32,5 @@ const addReport = async ({ reportMessage, questionWordId, userId }) => (
 module.exports = {
   getQuestion,
   addReport,
+  getFillInBlanksQuestion,
 };

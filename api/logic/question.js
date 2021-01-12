@@ -18,7 +18,6 @@ module.exports = class QuestionLogic {
       while (selectedAnswers.length !== 3) {
         const selectedValue = vowels[this.generateRandomNumber(vowels.length)];
         vowels = vowels.filter(item => item !== selectedValue);
-        console.log(vowels);
 
         selectedAnswers.push(selectedValue);
       }
