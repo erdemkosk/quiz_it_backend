@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 const memberLogic = require('../../logic/member');
 const memberDataAccess = require('../../data/data-access/member');
 const mailService = require('./mail');
@@ -24,13 +25,6 @@ const getMember = async ({ id }) => {
 const getMemberWithEmail = async ({ email }) => {
   const member = await memberDataAccess.getMemberWithEmail({ email });
 
-  if (!member) {
-    logger.error('[MemberService - getMember failed]%o', {
-      email,
-    });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
-  }
-
   return {
     member,
   };
@@ -53,6 +47,7 @@ const getMemberByEmailAndPassword = async ({ email, password }) => {
 };
 
 const createMember = async ({ email, password, nameSurname }) => {
+
   const { member: alreadyRegisteredMember } = await getMemberWithEmail({ email });
 
   if (alreadyRegisteredMember) {
