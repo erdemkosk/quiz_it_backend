@@ -53,6 +53,12 @@ const getMemberByEmailAndPassword = async ({ email, password }) => {
 };
 
 const createMember = async ({ email, password, nameSurname }) => {
+  const { member: alreadyRegisteredMember } = await getMemberWithEmail({ email });
+
+  if (alreadyRegisteredMember) {
+    throw new NotFound(MESSAGES.MEMBER_ALREADY_CREATED);
+  }
+
   const hashedPassword = memberLogic.hashPassword(password);
   const member = await memberDataAccess.createMember({ email, password: hashedPassword, nameSurname });
 

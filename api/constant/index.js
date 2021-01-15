@@ -15,6 +15,7 @@ module.exports = {
     MEMBER_NOT_FOUND: 'Member not found.',
     MEMBER_CANNOT_CREATED: 'Member cannot created.',
     MEMBER_CANNOT_UPDATED: 'Member cannot updated.',
+    MEMBER_ALREADY_CREATED: 'Member already created.',
     WORD_NOT_FOUND: 'Word not found.',
     WORD_CANNOT_CREATED: 'Word cannot created.',
     WORD_CANNOT_UPDATED: 'Word cannot updated.',
