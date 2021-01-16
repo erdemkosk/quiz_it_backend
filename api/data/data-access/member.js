@@ -22,6 +22,19 @@ const getMemberByEmailAndPassword = async ({ email, password }) => (
     .exec()
 );
 
+const getMemberRanking = async ({ level, currentExperience }) => (
+  Member
+    .find({
+      $or: [
+        { level: { $gt: level } },
+        { level, currentExperience: { $gt: currentExperience } },
+      ],
+    })
+    .count()
+    .lean()
+    .exec()
+);
+
 const createMember = async ({ email, password, nameSurname }) => (
   new Member({
     email, password, nameSurname,
@@ -80,4 +93,5 @@ module.exports = {
   setMemberSuccesfullQuestionStatistic,
   setMemberWrongQuestionStatistic,
   getMemberWithEmail,
+  getMemberRanking,
 };

@@ -14,7 +14,7 @@ const login = async (req, res, next) => {
 
     const token = await tokenService.generateToken({ uuid: member._id, email: member.email });
 
-    return res.status(200).send(successResponse({ results: formatter(member, token) }));
+    return res.status(200).send(successResponse({ results: formatter({ member, token }) }));
   }
   catch (error) {
     next(error);
@@ -42,9 +42,9 @@ const getMember = async (req, res, next) => {
   try {
     const { id } = req.query;
 
-    const { member } = await memberService.getMember({ id });
+    const { member, rank } = await memberService.getMember({ id });
 
-    return res.status(200).send(successResponse({ results: formatter(member) }));
+    return res.status(200).send(successResponse({ results: formatter({ member, rank }) }));
   }
   catch (error) {
     next(error);
@@ -63,7 +63,7 @@ const updateMember = async (req, res, next) => {
       nameSurname,
     });
 
-    return res.status(200).send(successResponse({ results: formatter(member) }));
+    return res.status(200).send(successResponse({ results: formatter({ member }) }));
   }
   catch (error) {
     next(error);

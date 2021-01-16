@@ -17,8 +17,10 @@ const getMember = async ({ id }) => {
     throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
   }
 
+  const rank = await memberDataAccess.getMemberRanking({ level: member.level, currentExperience: member.currentExperience });
+
   return {
-    member,
+    member, rank,
   };
 };
 
@@ -47,7 +49,6 @@ const getMemberByEmailAndPassword = async ({ email, password }) => {
 };
 
 const createMember = async ({ email, password, nameSurname }) => {
-
   const { member: alreadyRegisteredMember } = await getMemberWithEmail({ email });
 
   if (alreadyRegisteredMember) {
