@@ -97,7 +97,7 @@ const getTopTenMembers = async (req, res, next) => {
   try {
     const { members } = await memberService.getTopTenMembers();
 
-    return res.status(200).send(successResponse({ results: members.map(member => formatter(member)) }));
+    return res.status(200).send(successResponse({ results: members.map(member => formatter({ member })) }));
   }
   catch (error) {
     next(error);
