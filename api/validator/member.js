@@ -1,5 +1,4 @@
 const { Joi, Segments } = require('celebrate');
-const { QUESTION_DIFFICULTY } = require('../constant');
 Joi.objectId = require('joi-objectid')(Joi);
 
 const schemas = {
@@ -34,14 +33,7 @@ const schemas = {
   setMemberStatistic: {
     [Segments.BODY]: {
       isRightAnswer: Joi.boolean().required(),
-      difficulty: Joi.number().min(1).valid(
-        QUESTION_DIFFICULTY.A1,
-        QUESTION_DIFFICULTY.A2,
-        QUESTION_DIFFICULTY.B1,
-        QUESTION_DIFFICULTY.B2,
-        QUESTION_DIFFICULTY.C1,
-        QUESTION_DIFFICULTY.C2,
-      ).required(),
+      difficulty: Joi.number().min(1).required(),
     },
   },
   forgetPassword: {

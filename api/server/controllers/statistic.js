@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const { successResponse } = require('../../util/response');
 const statisticService = require('../services/statistic');
 const formatter = require('../../formatter/statistic');
