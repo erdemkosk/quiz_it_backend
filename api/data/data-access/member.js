@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Member = require('../models/member');
+const { convertProductIdsToObjectIds } = require('../../logic/member');
 
 const getMember = async ({ id }) => (
   Member
@@ -63,30 +64,35 @@ const getTopTenMembers = async () => (
     .exec()
 );
 
-const filterLastPlayedMembers = async ({
-  startDate, endDate,
-}) => (
-  Member.aggregate(
-    [
-      {
-        $match: {
-          lastPlayedDate: {
-            $gte: new Date(startDate),
-            $lte: new Date(endDate),
-          },
-        },
-      },
-      {
-        $project: {
-          notifications: '$notifications',
-          nameSurname: '$nameSurname',
-        },
-      },
-    ],
-  )
-
-);
-
+const filterMember = async ({
+  memberIds, isAdmin, levels, startDate, endDate,
+}) => Member.aggregate([
+  {
+    $match: {
+      ...(isAdmin !== undefined ? {
+        admin: isAdmin,
+      } : undefined),
+      ...(memberIds !== undefined ? {
+        _id: { $in: convertProductIdsToObjectIds(memberIds) },
+      } : undefined),
+      ...(levels !== undefined ? {
+        level: { $in: levels },
+      } : undefined),
+      ...(startDate ? {
+        lastPlayedDate: { $gte: new Date(startDate) },
+      } : undefined),
+      ...(endDate ? {
+        lastPlayedDate: { $lte: new Date(endDate) },
+      } : undefined),
+    },
+  },
+  {
+    $project: {
+      notifications: '$notifications',
+      nameSurname: '$nameSurname',
+    },
+  },
+]);
 
 const setMemberSuccesfullQuestionStatistic = async ({
   id, level, levelExperience, currentExperience,
@@ -131,5 +137,5 @@ module.exports = {
   getMemberWithEmail,
   getMemberRanking,
   setNotificationId,
-  filterLastPlayedMembers,
+  filterMember,
 };

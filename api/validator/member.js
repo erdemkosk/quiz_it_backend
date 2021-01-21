@@ -49,10 +49,13 @@ const schemas = {
       password: Joi.string().required(),
     },
   },
-  filterLastPlayedMembers: {
+  filterMember: {
     [Segments.BODY]: {
-      startDate: Joi.date().required(),
-      endDate: Joi.date().required(),
+      startDate: Joi.date(),
+      endDate: Joi.date(),
+      memberIds: Joi.array(),
+      isAdmin: Joi.bool(),
+      levels: Joi.array(),
     },
   },
 };

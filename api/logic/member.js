@@ -1,5 +1,6 @@
 /* eslint-disable no-return-assign */
 const crypto = require('crypto');
+const mongoose = require('mongoose');
 
 module.exports = class MemberLogic {
   static calculateLevel(level, experience) {
@@ -15,4 +16,13 @@ module.exports = class MemberLogic {
   static hashPassword(password) {
     return crypto.createHash('md5').update(password).digest('hex');
   }
+
+  static convertProductIdsToObjectIds(memberIds) {
+    const objectIds = (memberIds || []).map(
+      id => mongoose.Types.ObjectId(id),
+    );
+
+    return objectIds;
+  }
+
 };

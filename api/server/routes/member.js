@@ -12,7 +12,7 @@ const {
   forgetPassword,
   changePassword,
   setNotificationId,
-  filterLastPlayedMembers,
+  filterMember,
 } = require('../controllers/member');
 const schemas = require('../../validator/member');
 
@@ -71,20 +71,23 @@ router.post('/login', celebrate(schemas.login), login);
 router.post('/register', celebrate(schemas.register), register);
 
 /**
- * @typedef Date
- * @property {string} startDate.body.required - 2021-01-21T13:44:05.767Z
- * @property {string} endDate.body.required - 2021-01-21T13:44:05.767Z
+ * @typedef Filter
+ * @property {string} startDate - 2021-01-21T13:44:05.767Z
+ * @property {string} endDate - 2021-01-21T13:44:05.767Z
+ * @property {Array} memberIds.required  - Arrays of virtual names -eg: [8.8.8.8,8.8.4.4]
+ * @property {boolean} isAdmin
+ * @property {Array} levels.required  - Arrays of virtual names -eg: [8.8.8.8,8.8.4.4]
  */
 /**
  * This function comment is parsed by doctrine
- * @route POST /member/filter-last-played-date
+ * @route POST /member/filter
  * @group member - About member operations
- * @param {Date.model} date.body.required
+ * @param {Filter.model} filter.body.required
  * @returns {object} 200 - Get members with given date
  * @returns {Error}  default - Unexpected error
  */
 
-router.post('/filter-last-played-date', celebrate(schemas.filterLastPlayedMembers), filterLastPlayedMembers);
+router.post('/filter', celebrate(schemas.filterMember), filterMember);
 
 /**
  * @typedef Register

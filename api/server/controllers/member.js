@@ -104,11 +104,15 @@ const getTopTenMembers = async (req, res, next) => {
   }
 };
 
-const filterLastPlayedMembers = async (req, res, next) => {
+const filterMember = async (req, res, next) => {
   try {
-    const { startDate, endDate } = req.body;
+    const {
+      memberIds, isAdmin, levels, startDate, endDate,
+    } = req.body;
 
-    const { members } = await memberService.filterLastPlayedMembers({ startDate, endDate });
+    const { members } = await memberService.filterMember({
+      memberIds, isAdmin, levels, startDate, endDate,
+    });
 
     return res.status(200).send(successResponse({ results: members }));
   }
@@ -167,5 +171,5 @@ module.exports = {
   forgetPassword,
   changePassword,
   setNotificationId,
-  filterLastPlayedMembers,
+  filterMember,
 };
