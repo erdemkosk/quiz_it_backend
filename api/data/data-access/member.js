@@ -63,6 +63,30 @@ const getTopTenMembers = async () => (
     .exec()
 );
 
+const filterLastPlayedMembers = async ({
+  startDate, endDate,
+}) => (
+  Member.aggregate(
+    [
+      {
+        $match: {
+          lastPlayedDate: {
+            $gte: new Date(startDate),
+            $lte: new Date(endDate),
+          },
+        },
+      },
+      {
+        $project: {
+          notifications: '$notifications',
+        },
+      },
+    ],
+  )
+
+);
+
+
 const setMemberSuccesfullQuestionStatistic = async ({
   id, level, levelExperience, currentExperience,
 }) => Member.findOneAndUpdate({ _id: id },
@@ -71,6 +95,7 @@ const setMemberSuccesfullQuestionStatistic = async ({
       level,
       levelExperience,
       currentExperience,
+      lastPlayedDate: new Date(),
     },
     $inc: {
       'statistic.totalQuestion': 1, 'statistic.totalRightAnswers': 1,
@@ -79,6 +104,9 @@ const setMemberSuccesfullQuestionStatistic = async ({
 
 const setMemberWrongQuestionStatistic = async ({ id }) => Member.findOneAndUpdate({ _id: id },
   {
+    $set: {
+      lastPlayedDate: new Date(),
+    },
     $inc: {
       'statistic.totalQuestion': 1, 'statistic.totalWrongAnswers': 1,
     },
@@ -102,4 +130,5 @@ module.exports = {
   getMemberWithEmail,
   getMemberRanking,
   setNotificationId,
+  filterLastPlayedMembers,
 };

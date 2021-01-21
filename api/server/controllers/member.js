@@ -104,6 +104,19 @@ const getTopTenMembers = async (req, res, next) => {
   }
 };
 
+const filterLastPlayedMembers = async (req, res, next) => {
+  try {
+    const { startDate, endDate } = req.body;
+
+    const { members } = await memberService.filterLastPlayedMembers({ startDate, endDate });
+
+    return res.status(200).send(successResponse({ results: members }));
+  }
+  catch (error) {
+    next(error);
+  }
+};
+
 const forgetPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
@@ -154,4 +167,5 @@ module.exports = {
   forgetPassword,
   changePassword,
   setNotificationId,
+  filterLastPlayedMembers,
 };

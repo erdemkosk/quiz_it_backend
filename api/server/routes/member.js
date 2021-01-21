@@ -12,6 +12,7 @@ const {
   forgetPassword,
   changePassword,
   setNotificationId,
+  filterLastPlayedMembers,
 } = require('../controllers/member');
 const schemas = require('../../validator/member');
 
@@ -68,6 +69,22 @@ router.post('/login', celebrate(schemas.login), login);
  */
 
 router.post('/register', celebrate(schemas.register), register);
+
+/**
+ * @typedef Date
+ * @property {string} startDate.body.required - 2021-01-21T13:44:05.767Z
+ * @property {string} endDate.body.required - 2021-01-21T13:44:05.767Z
+ */
+/**
+ * This function comment is parsed by doctrine
+ * @route POST /member/filter-last-played-date
+ * @group member - About member operations
+ * @param {Date.model} date.body.required
+ * @returns {object} 200 - Get members with given date
+ * @returns {Error}  default - Unexpected error
+ */
+
+router.post('/filter-last-played-date', celebrate(schemas.filterLastPlayedMembers), filterLastPlayedMembers);
 
 /**
  * @typedef Register

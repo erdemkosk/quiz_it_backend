@@ -26,6 +26,7 @@ const MemberSchema = new Schema({
     type: Array,
   },
   createdAt: { type: Date, default: Date.now() },
+  lastPlayedDate: { type: Date, default: Date.now() },
   admin: { type: Boolean, default: false },
   level: {
     type: Number,

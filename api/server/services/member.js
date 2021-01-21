@@ -48,6 +48,14 @@ const getMemberByEmailAndPassword = async ({ email, password }) => {
   };
 };
 
+const filterLastPlayedMembers = async ({ startDate, endDate }) => {
+  const members = await memberDataAccess.filterLastPlayedMembers({ startDate: new Date(startDate), endDate: new Date(endDate) });
+
+  return {
+    members,
+  };
+};
+
 const createMember = async ({ email, password, nameSurname }) => {
   const { member: alreadyRegisteredMember } = await getMemberWithEmail({ email });
 
@@ -223,4 +231,5 @@ module.exports = {
   forgetPassword,
   changePassword,
   setNotificationId,
+  filterLastPlayedMembers,
 };
