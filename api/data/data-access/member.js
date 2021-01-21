@@ -79,6 +79,7 @@ const filterLastPlayedMembers = async ({
       {
         $project: {
           notifications: '$notifications',
+          nameSurname: '$nameSurname',
         },
       },
     ],
