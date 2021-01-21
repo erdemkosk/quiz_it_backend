@@ -22,6 +22,9 @@ const MemberSchema = new Schema({
     required: [true, '`{PATH}` alanı zorunludur.'],
     minlength: [3, '`{PATH}` alanı (`{VALUE}`), ({MINLENGTH}) karakterden büyük olmalıdır.'],
   },
+  notifications: {
+    type: Array,
+  },
   createdAt: { type: Date, default: Date.now() },
   admin: { type: Boolean, default: false },
   level: {

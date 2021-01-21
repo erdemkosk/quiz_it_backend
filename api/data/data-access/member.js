@@ -84,6 +84,13 @@ const setMemberWrongQuestionStatistic = async ({ id }) => Member.findOneAndUpdat
     },
   }, { new: true });
 
+const setNotificationId = async ({
+  id, notificationId,
+}) => Member.findOneAndUpdate({ _id: id },
+  {
+    $addToSet: { notifications: notificationId },
+  }, { new: true });
+
 module.exports = {
   getMember,
   getMemberByEmailAndPassword,
@@ -94,4 +101,5 @@ module.exports = {
   setMemberWrongQuestionStatistic,
   getMemberWithEmail,
   getMemberRanking,
+  setNotificationId,
 };

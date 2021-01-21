@@ -130,6 +130,20 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+const setNotificationId = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { notificationId } = req.body;
+
+    const { success } = await memberService.setNotificationId({ id, notificationId });
+
+    return res.status(200).send(successResponse({ results: success }));
+  }
+  catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   login,
   register,
@@ -139,4 +153,5 @@ module.exports = {
   getTopTenMembers,
   forgetPassword,
   changePassword,
+  setNotificationId,
 };

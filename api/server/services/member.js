@@ -195,6 +195,24 @@ const changePassword = async ({ token, password }) => {
   };
 };
 
+const setNotificationId = async ({ id, notificationId }) => {
+  const { member } = await getMember({ id });
+
+  if (!member) {
+    logger.error('[MemberService - setNotificationId failed]%o', {
+    });
+    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+  }
+
+  await memberDataAccess.setNotificationId({
+    id, notificationId,
+  });
+
+  return {
+    success: true,
+  };
+};
+
 module.exports = {
   getMember,
   getMemberByEmailAndPassword,
@@ -204,4 +222,5 @@ module.exports = {
   setMemberStatistic,
   forgetPassword,
   changePassword,
+  setNotificationId,
 };

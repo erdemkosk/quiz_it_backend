@@ -11,6 +11,7 @@ const {
   setMemberStatistic,
   forgetPassword,
   changePassword,
+  setNotificationId,
 } = require('../controllers/member');
 const schemas = require('../../validator/member');
 
@@ -126,12 +127,29 @@ router.post('/forget-password/', celebrate(schemas.forgetPassword), forgetPasswo
  * This function comment is parsed by doctrine
  * @route PUT /member/change-password/{token}
  * @group member - About member operations
- * @param {string} token.query.required 5ec28e2ae47cce0017b0b65d
+ * @param {string} token.path.required 5ec28e2ae47cce0017b0b65d
  * @param {Password.model} password.body.required
  * @returns {object} 200 - returning Member from Members
  * @returns {Error}  default - Unexpected error
  */
 
 router.put('/change-password/:token', celebrate(schemas.changePassword), changePassword);
+
+/**
+ * @typedef Notifacition
+ * @property {string} notificationId.body.required
+ */
+/**
+ * This function comment is parsed by doctrine
+ * @route PUT /member/set-notification/{id}
+ * @group member - About member operations
+ * @param {string} id.path.required 5ec28e2ae47cce0017b0b65d
+ * @param {Notifacition.model} notification.body.required
+ * @returns {object} 200 - added notificationId to Member
+ * @returns {Error}  default - Unexpected error
+ */
+
+router.put('/set-notification/:id', auth.checkToken, setNotificationId);
+
 
 module.exports = router;
