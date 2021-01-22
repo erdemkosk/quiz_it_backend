@@ -56,6 +56,8 @@ const schemas = {
       memberIds: Joi.array(),
       isAdmin: Joi.bool(),
       levels: Joi.array(),
+      emails: Joi.array(),
+      nameSurnames: Joi.array(),
     },
   },
 };

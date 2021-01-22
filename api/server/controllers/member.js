@@ -107,11 +107,11 @@ const getTopTenMembers = async (req, res, next) => {
 const filterMember = async (req, res, next) => {
   try {
     const {
-      memberIds, isAdmin, levels, startDate, endDate,
+      memberIds, isAdmin, levels, startDate, endDate, emails, nameSurnames,
     } = req.body;
 
     const { members } = await memberService.filterMember({
-      memberIds, isAdmin, levels, startDate, endDate,
+      memberIds, isAdmin, levels, emails, nameSurnames, startDate, endDate,
     });
 
     return res.status(200).send(successResponse({ results: members }));

@@ -65,12 +65,18 @@ const getTopTenMembers = async () => (
 );
 
 const filterMember = async ({
-  memberIds, isAdmin, levels, startDate, endDate,
+  memberIds, isAdmin, levels, emails, nameSurnames, startDate, endDate,
 }) => Member.aggregate([
   {
     $match: {
       ...(isAdmin !== undefined ? {
         admin: isAdmin,
+      } : undefined),
+      ...(emails !== undefined ? {
+        email: { $in: emails },
+      } : undefined),
+      ...(nameSurnames !== undefined ? {
+        nameSurname: { $in: nameSurnames },
       } : undefined),
       ...(memberIds !== undefined ? {
         _id: { $in: convertProductIdsToObjectIds(memberIds) },

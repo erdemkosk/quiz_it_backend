@@ -74,9 +74,11 @@ router.post('/register', celebrate(schemas.register), register);
  * @typedef Filter
  * @property {string} startDate - 2021-01-21T13:44:05.767Z
  * @property {string} endDate - 2021-01-21T13:44:05.767Z
- * @property {Array} memberIds.required  - Arrays of virtual names -eg: [8.8.8.8,8.8.4.4]
+ * @property {Array} memberIds.required  - Arrays of virtual names -eg: ["userId"]
  * @property {boolean} isAdmin
- * @property {Array} levels.required  - Arrays of virtual names -eg: [8.8.8.8,8.8.4.4]
+ * @property {Array} levels.required  - Arrays of virtual names -eg: [2,5]
+ * @property {Array} emails.required  - Arrays of virtual names -eg: ["erdemkosk@gmail.com"]
+ * @property {Array} nameSurnames.required  - Arrays of virtual names -eg: ["Erdem Köşk"]
  */
 /**
  * This function comment is parsed by doctrine

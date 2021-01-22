@@ -49,10 +49,10 @@ const getMemberByEmailAndPassword = async ({ email, password }) => {
 };
 
 const filterMember = async ({
-  memberIds, isAdmin, levels, startDate, endDate,
+  memberIds, isAdmin, levels, emails, nameSurnames, startDate, endDate,
 }) => {
   const members = await memberDataAccess.filterMember({
-    memberIds, isAdmin, levels, startDate, endDate,
+    memberIds, isAdmin, levels, emails, nameSurnames, startDate, endDate,
   });
 
   return {
