@@ -13,7 +13,7 @@ module.exports = {
   },
   jwt: {
     key: process.env.JWT_KEY || 'testJwt',
-    expires: process.env.JWT_EXPIRES || '1d',
+    expires: process.env.JWT_EXPIRES || '3650d',
   },
   sentry: {
     dsn: process.env.SENTRY_DSN || '',
