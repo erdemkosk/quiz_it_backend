@@ -6,7 +6,7 @@ exports.successResponse = ({ message, results, statusCode }) => ({
   results,
 });
 
-exports.errorResponse = (message, statusCode) => {
+exports.errorResponse = (message, statusCode, errorCode) => {
   // List of common HTTP request code
   const codes = [200, 201, 400, 401, 404, 403, 422, 500];
 
@@ -19,6 +19,7 @@ exports.errorResponse = (message, statusCode) => {
   return {
     message,
     code: statusCode,
+    errorCode: errorCode || -1,
     error: true,
   };
 };

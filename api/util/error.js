@@ -1,34 +1,25 @@
-/* eslint-disable no-use-before-define */
-class GeneralError extends Error {
-  constructor(message) {
-    super();
-    this.message = message;
-  }
+/* eslint-disable no-return-assign */
+const CUSTOM_ERRORS = require('../error/error-messages');
 
-  getCode() {
-    if (this instanceof BadRequest) {
-      return 400;
-    } if (this instanceof Unauthorized) {
-      return 401;
-    }
-    if (this instanceof Forbidden) {
-      return 403;
-    } if (this instanceof NotFound) {
-      return 404;
-    }
-    return 500;
-  }
-}
+const generateCustomErrors = (extendClass, generatedClass, message, code, statusCode) => ({
+  [generatedClass]:
+    class extends extendClass {
+      constructor(data, ...args) {
+        super(message, code, statusCode, data, args);
+      }
+    },
+}[generatedClass]);
 
-class BadRequest extends GeneralError { }
-class Unauthorized extends GeneralError { }
-class Forbidden extends GeneralError { }
-class NotFound extends GeneralError { }
-
-module.exports = {
-  GeneralError,
-  BadRequest,
-  Unauthorized,
-  Forbidden,
-  NotFound,
-};
+module.exports = (
+  Object
+    .keys(CUSTOM_ERRORS)
+    // eslint-disable-next-line no-return-assign
+    // eslint-disable-next-line no-param-reassign
+    .reduce((acc, customError) => ({
+      ...acc,
+      [customError]: generateCustomErrors(CUSTOM_ERRORS[customError].parentError,
+        customError,
+        CUSTOM_ERRORS[customError].message,
+        CUSTOM_ERRORS[customError].code),
+    }), {})
+);

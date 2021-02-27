@@ -4,8 +4,14 @@ const memberDataAccess = require('../../data/data-access/member');
 const mailService = require('./mail');
 const tokenService = require('./token');
 const logger = require('../../plugin/logger');
-const { NotFound, BadRequest } = require('../../util/error');
-const { MESSAGES, MAIL_TYPE, FORGET_PASSWORD_JWT_EXPIRE } = require('../../constant');
+const { MAIL_TYPE, FORGET_PASSWORD_JWT_EXPIRE } = require('../../constant');
+const {
+  MemberNotFound,
+  MemberAlreadyCreated,
+  MemberCannotCreated,
+  MemberCannotUpdated,
+  TokenIsNotValid,
+} = require('../../util/error');
 
 const getMember = async ({ id }) => {
   const member = await memberDataAccess.getMember({ id });
@@ -14,7 +20,7 @@ const getMember = async ({ id }) => {
     logger.error('[MemberService - getMember failed]%o', {
       id,
     });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
 
   const rank = await memberDataAccess.getMemberRanking({ level: member.level, currentExperience: member.currentExperience });
@@ -40,7 +46,7 @@ const getMemberByEmailAndPassword = async ({ email, password }) => {
     logger.error('[MemberService - getMemberByEmailAndPassword failed]%o', {
       email,
     });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
 
   return {
@@ -64,7 +70,7 @@ const createMember = async ({ email, password, nameSurname }) => {
   const { member: alreadyRegisteredMember } = await getMemberWithEmail({ email });
 
   if (alreadyRegisteredMember) {
-    throw new NotFound(MESSAGES.MEMBER_ALREADY_CREATED);
+    throw new MemberAlreadyCreated();
   }
 
   const hashedPassword = memberLogic.hashPassword(password);
@@ -75,7 +81,7 @@ const createMember = async ({ email, password, nameSurname }) => {
       email,
       nameSurname,
     });
-    throw new NotFound(MESSAGES.MEMBER_CANNOT_CREATED);
+    throw new MemberCannotCreated();
   }
 
   await mailService.sendMessageToMailService({ member, mailType: MAIL_TYPE.REGISTER });
@@ -99,7 +105,7 @@ const updateMember = async ({
       email,
       nameSurname,
     });
-    throw new NotFound(MESSAGES.MEMBER_CANNOT_UPDATED);
+    throw new MemberCannotUpdated();
   }
 
   return {
@@ -112,7 +118,7 @@ const getTopTenMembers = async () => {
 
   if (!members) {
     logger.error('[MemberService - getTopTenMembers failed]%o');
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
 
   return {
@@ -127,7 +133,7 @@ const setMemberStatistic = async ({ id, isRightAnswer, difficulty }) => {
     logger.error('[MemberService - setMemberStatistic failed]%o', {
       id,
     });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
   const level = memberLogic.calculateLevel(member.level, (Number(member.currentExperience) + Number(difficulty)));
   const levelExperience = memberLogic.calculateLevelExperience(level);
@@ -159,7 +165,7 @@ const forgetPassword = async ({ email }) => {
     logger.error('[MemberService - forgetPassword failed]%o', {
       email,
     });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
 
   const token = await tokenService.generateToken({ uuid: member._id, email: member.email, expiresIn: FORGET_PASSWORD_JWT_EXPIRE });
@@ -181,7 +187,7 @@ const changePassword = async ({ token, password }) => {
   catch (error) {
     logger.error('[MemberService - changePassword failed]%o', {
     });
-    throw new BadRequest(MESSAGES.TOKEN_IS_NOT_VALID);
+    throw new TokenIsNotValid();
   }
 
   const { member } = await getMember({ id: uuid });
@@ -189,7 +195,7 @@ const changePassword = async ({ token, password }) => {
   if (!member) {
     logger.error('[MemberService - changePassword failed]%o', {
     });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
 
   const { member: updatedMember } = await updateMember({
@@ -199,7 +205,7 @@ const changePassword = async ({ token, password }) => {
   if (!updatedMember) {
     logger.error('[MemberService - changePassword failed]%o', {
     });
-    throw new NotFound(MESSAGES.MEMBER_CANNOT_UPDATED);
+    throw new MemberCannotUpdated();
   }
 
   return {
@@ -213,7 +219,7 @@ const setNotificationId = async ({ id, notificationId }) => {
   if (!member) {
     logger.error('[MemberService - setNotificationId failed]%o', {
     });
-    throw new NotFound(MESSAGES.MEMBER_NOT_FOUND);
+    throw new MemberNotFound();
   }
 
   await memberDataAccess.setNotificationId({

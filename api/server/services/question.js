@@ -1,8 +1,10 @@
 const questionDataAccess = require('../../data/data-access/question');
 const logger = require('../../plugin/logger');
 const questionLogic = require('../../logic/question');
-const { NotFound } = require('../../util/error');
-const { MESSAGES } = require('../../constant');
+const {
+  QuestionNotFound,
+  ReportCannotCreated,
+} = require('../../util/error');
 
 const getQuestion = async ({ difficulty = 1 }) => {
   const words = await questionDataAccess.getQuestion({ difficulty });
@@ -17,7 +19,7 @@ const getQuestion = async ({ difficulty = 1 }) => {
       question,
       answers,
     });
-    throw new NotFound(MESSAGES.QUESTION_NOT_FOUND);
+    throw new QuestionNotFound();
   }
 
   return {
@@ -53,7 +55,7 @@ const getFillInBlanksQuestion = async ({ difficulty = 1 }) => {
       question,
       answers,
     });
-    throw new NotFound(MESSAGES.QUESTION_NOT_FOUND);
+    throw new QuestionNotFound();
   }
 
   return {
@@ -72,7 +74,7 @@ const addReport = async ({ reportMessage, questionWordId, userId }) => {
       questionWordId,
       userId,
     });
-    throw new NotFound(MESSAGES.REPORT_CANNOT_CREATED);
+    throw new ReportCannotCreated();
   }
 
   return {

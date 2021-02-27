@@ -1,7 +1,11 @@
 const wordDataAccess = require('../../data/data-access/word');
 const logger = require('../../plugin/logger');
-const { NotFound } = require('../../util/error');
-const { MESSAGES } = require('../../constant');
+const {
+  WordNotFound,
+  WordCannotCreated,
+  WordCannotUpdated,
+
+} = require('../../util/error');
 
 const getWords = async ({ page, limit, filter }) => {
   const words = await wordDataAccess.getWords({ page, limit, filter });
@@ -13,7 +17,7 @@ const getWords = async ({ page, limit, filter }) => {
       limit,
       filter,
     });
-    throw new NotFound(MESSAGES.WORD_NOT_FOUND);
+    throw new WordNotFound();
   }
 
   return {
@@ -29,7 +33,7 @@ const getWord = async ({ id }) => {
     logger.error('[WordService - getWord failed]%o', {
       id,
     });
-    throw new NotFound(MESSAGES.WORD_NOT_FOUND);
+    throw new WordNotFound();
   }
 
   return {
@@ -45,7 +49,7 @@ const addWord = async ({ word, translated }) => {
       word,
       translated,
     });
-    throw new NotFound(MESSAGES.WORD_CANNOT_CREATED);
+    throw new WordCannotCreated();
   }
 
   return {
@@ -70,7 +74,7 @@ const updateWord = async ({
       translated,
       difficulty,
     });
-    throw new NotFound(MESSAGES.WORD_CANNOT_UPDATED);
+    throw new WordCannotUpdated();
   }
 
   return {

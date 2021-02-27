@@ -9,7 +9,6 @@ const getStatistic = async () => {
   };
 };
 
-
 module.exports = {
   getStatistic,
 };
