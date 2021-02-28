@@ -1,10 +1,11 @@
 /* eslint-disable no-empty */
 const memberLogic = require('../../logic/member');
 const memberDataAccess = require('../../data/data-access/member');
-const mailService = require('./mail');
 const tokenService = require('./token');
 const logger = require('../../plugin/logger');
 const { MAIL_TYPE, FORGET_PASSWORD_JWT_EXPIRE } = require('../../constant');
+
+const { EmailEventHandler } = require('../../event/adapters/');
 const {
   MemberNotFound,
   MemberAlreadyCreated,
@@ -12,6 +13,7 @@ const {
   MemberCannotUpdated,
   TokenIsNotValid,
 } = require('../../util/error');
+
 
 const getMember = async ({ id }) => {
   const member = await memberDataAccess.getMember({ id });
@@ -84,7 +86,7 @@ const createMember = async ({ email, password, nameSurname }) => {
     throw new MemberCannotCreated();
   }
 
-  await mailService.sendMessageToMailService({ member, mailType: MAIL_TYPE.REGISTER });
+  EmailEventHandler.triger({ params: { member, mailType: MAIL_TYPE.REGISTER } });
 
   return {
     member,
@@ -169,7 +171,8 @@ const forgetPassword = async ({ email }) => {
   }
 
   const token = await tokenService.generateToken({ uuid: member._id, email: member.email, expiresIn: FORGET_PASSWORD_JWT_EXPIRE });
-  await mailService.sendMessageToMailService({ member, mailType: MAIL_TYPE.FORGET_PASSWORD, token });
+
+  EmailEventHandler.triger({ params: { member, mailType: MAIL_TYPE.FORGET_PASSWORD, token } });
 
   return {
     success: true,
