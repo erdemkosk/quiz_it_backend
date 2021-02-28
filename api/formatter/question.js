@@ -1,5 +1,5 @@
 module.exports = (question, answers, correctAnswer) => ({
-  question: question ? question.word : undefined,
+  question: question?.word,
   wordId: question._id,
   answers,
   correctAnswer,
