@@ -60,7 +60,7 @@
     "moment-timezone": "^0.5.31",
     "mongoose": "^5.9.25",
     "node-mocks-http": "^1.9.0",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "webhook-discord": "^3.7.7",
     "winston": "^3.3.3",
     "winston-transport-sentry-node": "^0.6.0"
